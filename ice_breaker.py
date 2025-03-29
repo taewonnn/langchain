@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
 
 
 # env
@@ -18,9 +19,9 @@ information = """
 # PromptTemplate
 summary_template = """
     given the inforamtion about a person from I want you to create
+    Please answer in korean
     1. a short summary
     2. two interesting facts about them
-    3. Please answer in korean
 """
 
 summary_prompt_template = PromptTemplate(
@@ -29,10 +30,10 @@ summary_prompt_template = PromptTemplate(
 
 llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
 
-chain = summary_prompt_template | llm
+chain = summary_prompt_template | llm | StrOutputParser()
 res = chain.invoke(input={"information": information})
 
-print(res.content)
+print(res)
 
 
 
