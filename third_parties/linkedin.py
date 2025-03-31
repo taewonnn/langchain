@@ -4,50 +4,54 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 def scrape_linkedin_profile(linkedin_profile_url: str, mock: bool = False):
-    """scrape information from LinkedIn profiles,
-    Manually scrape the information from the LinkedIn profile"""
+    """Scrape information from LinkedIn profiles."""
 
     if mock:
         linkedin_profile_url = "https://gist.githubusercontent.com/emarco177/859ec7d786b45d8e3e3f688c6c9139d8/raw/32f3c85b9513994c572613f2c8b376b633bfc43f/eden-marco-scrapin.json"
-        response = requests.get(
-            linkedin_profile_url,
-            timeout=10,
-        )
+        response = requests.get(linkedin_profile_url, timeout=10)
     else:
-        # ENROLL WITH COUPON CODE: EDENMARCO
-        # For 20% Discount on all pricing
-        api_endpoint = "https://api.scrapin.io/enrichment/profile"
-        params = {
-            "apikey": os.environ["SCRAPIN_API_KEY"],
-            "linkedInUrl": linkedin_profile_url,
+        # 공식 문서에 나온 endpoint 사용 (예: Proxycurl)
+        api_endpoint = "https://nubela.co/proxycurl/api/v2/linkedin"
+        headers = {
+            "Authorization": f"Bearer {os.getenv('SCRAPIN_API_KEY')}"
         }
-        response = requests.get(
-            api_endpoint,
-            params=params,
-            timeout=10,
-        )
+        params = {
+            "linkedin_profile_url": linkedin_profile_url,
+            "extra": "include",
+            "github_profile_id": "include",
+            "facebook_profile_id": "include",
+            "twitter_profile_id": "include",
+            "personal_contact_number": "include",
+            "personal_email": "include",
+            "inferred_salary": "include",
+            "skills": "include",
+            "use_cache": "if-present",
+            "fallback_to_cache": "on-error",
+        }
+        response = requests.get(api_endpoint, headers=headers, params=params, timeout=10)
 
-    data = response.json().get("person")
+    json_data = response.json()
+    print(json_data)
     
-    # 예외처리
+    data = json_data.get("person")
+    
+    # 예외처리: person 키가 없을 경우
     if data is None:
-      raise ValueError('No person key')
+        raise ValueError("No person key found in the response.")
     
-    
+    # 필요 없는 값 필터링
     data = {
         k: v
         for k, v in data.items()
-        if v not in ([], "", "", None) and k not in ["certifications"]
+        if v not in ([], "", None) and k not in ["certifications"]
     }
 
     return data
-
 
 if __name__ == "__main__":
     print(
         scrape_linkedin_profile(
             linkedin_profile_url="https://www.linkedin.com/in/taewon-park-1b3469194/"
-        ),
+        )
     )
