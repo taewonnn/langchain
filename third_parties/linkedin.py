@@ -32,20 +32,12 @@ def scrape_linkedin_profile(linkedin_profile_url: str, mock: bool = False):
         response = requests.get(api_endpoint, headers=headers, params=params, timeout=10)
 
     json_data = response.json()
-    print(json_data)
+    #print(json_data)
     
-    data = json_data.get("person")
-    
-    # 예외처리: person 키가 없을 경우
-    if data is None:
-        raise ValueError("No person key found in the response.")
-    
-    # 필요 없는 값 필터링
-    data = {
-        k: v
-        for k, v in data.items()
-        if v not in ([], "", None) and k not in ["certifications"]
-    }
+    # 프로필
+    data = json_data.get("profile_pic_url")
+    print(data)
+
 
     return data
 
