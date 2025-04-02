@@ -334,3 +334,4 @@ pip-selfcheck.json
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python,venv,macos
 *.csv
 !log_keyword_2.csv
+!log_keyword.csv
