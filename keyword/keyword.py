@@ -90,7 +90,7 @@ prompt_template = PromptTemplate(
 )
 
 # Retrieval QA 체인 구성 및 쿼리 실행
-retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 100})
+retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 1000})
 qa = RetrievalQA.from_chain_type(
     llm=ChatOpenAI(openai_api_key=OPENAI_API_KEY),
     chain_type="stuff",
