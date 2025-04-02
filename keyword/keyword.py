@@ -15,6 +15,7 @@ from pinecone import Pinecone, ServerlessSpec
 import pinecone
 
 
+# Pinecone 버전 이슈
 pinecone.Index = pinecone.data.index.Index
 
 # 환경변수 로드
@@ -28,7 +29,10 @@ st.title("ADN Keyword Matching")
 query = st.text_input("질문을 입력하세요", value="")
 
 # dataframe 로드 및 전처리
-df = pd.read_csv('./data/log_keyword.csv')
+# df = pd.read_csv('./data/log_keyword.csv')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(BASE_DIR, "data", "log_keyword.csv")
+df = pd.read_csv(csv_path)
 filtered_list = df[['ui', 'ad_ids', 'k']].dropna()
 st.write(filtered_list.head(100))
 
