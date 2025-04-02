@@ -9,6 +9,7 @@ langchain-community = "*"
 langchainhub = "*"
 dotenv = "*"
 langchain-openai = "*"
+pinecone = "*"
 
 [dev-packages]
 
