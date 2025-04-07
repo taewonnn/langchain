@@ -11,6 +11,7 @@ dotenv = "*"
 langchain-openai = "*"
 pinecone = "*"
 pymysql = "*"
+tabulate = "*"
 
 [dev-packages]
 
