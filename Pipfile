@@ -10,6 +10,7 @@ langchainhub = "*"
 dotenv = "*"
 langchain-openai = "*"
 pinecone = "*"
+pymysql = "*"
 
 [dev-packages]
 
