@@ -56,7 +56,7 @@ for i, (_, row) in enumerate(filtered_list.iterrows()):
     text = f"ui: {row['ui']}\nad_ids: {row['ad_ids']}\nk: {row['k']}"
     doc = Document(
         page_content=text,
-        metadata={**row.to_dict(), "id": f"doc_{i}"}  # 고유 id 지정 -> 중복 방지
+        metadata={**row.to_dict(), "id": f"doc_{i}"}
     )
     docs.append(doc)
 
