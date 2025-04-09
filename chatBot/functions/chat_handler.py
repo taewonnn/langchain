@@ -10,6 +10,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 #  SQL 생성 요청할 함수 스펙
+# OpenAI Function Calling, 어떤 이름(name)의 함수를, 어떤 파라미터 구조(parameters) 로 호출할 수 있는지 정의해 주는 스펙
 SQL_FUNCTION = {
     "name": "run_query",
     "description": "주어진 SQL을 실행하고 결과를 반환합니다.",
@@ -25,7 +26,7 @@ SQL_FUNCTION = {
     }
 }
 
-
+# 자연어 질문 -> SQL문 변경
 def nl_to_sql(nl_question: str) -> str:
     
     table = "adn_daily_agency_statics_2025"
@@ -55,22 +56,30 @@ def nl_to_sql(nl_question: str) -> str:
     return args["query"]
 
 
+# 해석 요청
 def explain_df(df: pd.DataFrame) -> str:
+    system_prompt = """
+    당신은 데이터 분석 전문가입니다.
+    아래 숫자형 데이터만 보고, 절대 컬럼명(헤더) 설명은 하지 마세요.
+    1) 주요 수치(최댓값, 최솟값, 평균)
+    2) 상위/하위 항목
+    3) 눈에 띄는 패턴/이상치
+    4) 이를 통한 인사이트 및 권장사항
+    위 네 가지 항목으로 간결히 한국어로 분석해 주세요.
     """
-    DataFrame 결과를 Markdown으로 변환해
-    OpenAI에 해석을 요청하고, 그 응답을 반환
-    """
+    
     md_table = df.to_markdown(index=False)
     resp = openai.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "당신은 데이터 분석가입니다. 아래 테이블을 자세하게 한국어로 해석해주세요. 스키마는 굳이 해석할 필요는 없습니다."},
+            {"role": "system", "content":system_prompt},
             {"role": "user",   "content": md_table}
         ]
     )
     return resp.choices[0].message.content
 
 
+# 질문 핸들러
 def handle_question(nl_question: str):
     """
     1) 자연어 → SQL 생성
