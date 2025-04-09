@@ -15,7 +15,8 @@ def run_query(query):
             user=DB_USER,
             password=DB_PASSWORD,
             db=DB_NAME_LOGS,
-            charset="utf8"
+            charset="utf8",
+            cursorclass=pymysql.cursors.DictCursor
         )
         with conn.cursor() as cursor:
             cursor.execute(query)
@@ -23,5 +24,5 @@ def run_query(query):
         conn.close()
         return result
     except Exception as e:
-        print("❌ DB 연결 또는 쿼리 오류:", e)
+        print("Error:", e)
         raise e

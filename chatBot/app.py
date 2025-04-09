@@ -21,10 +21,10 @@ for i, chat in enumerate(st.session_state.chat_history):
     st.markdown(f"**🤖 답변:**\n\n{chat['answer']}", unsafe_allow_html=True)
     st.markdown("---")
 
-# 👇 항상 하단에 위치하게 만들기 위한 구분선
+# 구분선
 st.markdown("## 📝 질문 입력")
 
-# 하단에 고정된 느낌의 입력 영역 (가로 정렬)
+# 정렬
 col1, col2 = st.columns([0.85, 0.15])
 with col1:
     query = st.text_input("질문을 입력하세요", key="query_input", label_visibility="collapsed")
