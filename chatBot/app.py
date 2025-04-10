@@ -13,18 +13,12 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 st.set_page_config(layout="wide")
 
+st.title('ADN DB - QnA')
+
 # 세션 상태: messages 리스트로 통합
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-html(
-    """
-    <script>
-        window.scrollTo(0, document.body.scrollHeight);
-    </script>
-    """,
-    height=0,
-)
 
 # 대화 기록 출력
 for msg in st.session_state.messages:
