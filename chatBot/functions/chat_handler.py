@@ -4,10 +4,14 @@ import pandas as pd
 import json
 from dotenv import load_dotenv
 from .run_query import run_query,get_table_schema
+from datetime import datetime
+
 
 # 환경변수 로드 및 OpenAI API 키 설정
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
+
+current_date = datetime.now().strftime("%Y-%m-%d")
 
 # Function Calling 스펙
 SQL_FUNCTION = {
