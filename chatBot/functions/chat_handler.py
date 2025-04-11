@@ -100,11 +100,11 @@ def nl_to_sql(nl_question: str, history: list = None) ->str:
     # print(json.loads(res.choices[0].message.function_call.arguments))
     
     ans = json.loads(res.choices[0].message.function_call.arguments)
-    return ans
-
+    return ans['query']
 
 # test
 # nl_to_sql('2025년 4월 1일 ~ 3일 클릭수 높은 순 정렬 10개')
+
 
 # DataFrame 해석
 def explain_df(df: pd.DataFrame, history: list = None) -> str:
@@ -126,7 +126,7 @@ def explain_df(df: pd.DataFrame, history: list = None) -> str:
     messages.append({"role": "user", "content": md_table})
     
     res = openai.chat.completions.create(
-        modle='gpt-4o',
+        model='gpt-4o',
         messages=messages
     )
     
