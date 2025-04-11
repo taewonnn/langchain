@@ -25,7 +25,6 @@ SQL_FUNCTION = {
     }
 }
 
-
 # 질문 분류(DB / 일반)
 def classify_question(nl_question: str) -> str:
     classification_prompt = f"""
