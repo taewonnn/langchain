@@ -29,11 +29,14 @@ if prompt:
     # 입력받은 질문 -> SQL, 결과, 해석
     try:
         sql, df, explanation = handle_question(prompt)
-        answer = (
-            f"**💡 실행된 SQL:**\n```sql\n{sql}\n```\n\n"
-            f"**📊 결과 테이블:**\n{df.to_markdown(index=False)}\n\n"
-            f"**🔍 해석:**\n{explanation}"
-        )
+        if df is not None:
+            answer = (
+                f"**💡 실행된 SQL:**\n```sql\n{sql}\n```\n\n"
+                f"**📊 결과 테이블:**\n{df.to_markdown(index=False)}\n\n"
+                f"**🔍 해석:**\n{explanation}"
+            )
+        else:
+            answer = f"**🔍 답변:**\n{explanation}"
         
     except Exception as e:
         answer = f"❌ 오류: {e}"
